@@ -1,0 +1,76 @@
+
+<ion-row style="background-color:white;color:black">
+  <ion-col >
+    <h1 style="margin-left: 10px;">iamneo.ai Talent Center</h1>
+  </ion-col>
+  <ion-col >
+
+  </ion-col>
+  <ion-col>
+    <ion-item  style="width:80%;">
+      <ion-label position="floating">
+        <ion-icon name="search"></ion-icon>
+        Search  Group 
+       </ion-label>
+      <ion-input [(ngModel)]="filter_l"></ion-input>
+    </ion-item>
+
+  </ion-col>
+  
+</ion-row>
+    
+<ion-grid>
+  <ion-row (cdkDropListDropped)="dropMain($event)">
+    <ion-col *ngFor="let grp of all_groups| filter:filter_l;"  cdkDrag>
+      <ion-card style="background-color:rgb(183, 225, 238);">
+        <ion-card-header >
+          <ion-card-title style="color:black" >{{ grp.group_name }}-{{ grp.candidates.length }}</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content (cdkDropListDropped)="dropSub($event,j)">
+          <ion-item slot="end" style="width:100% ;">
+            <ion-label position="floating"><ion-icon name="search"></ion-icon>
+          Search  candidates  </ion-label>
+            <ion-input [(ngModel)]="grp.filter"></ion-input>
+          </ion-item>
+          <!-- ======================================== -->
+          <ion-card *ngFor="let candidates of grp.candidates | filter:grp.filter;let j=index;" cdkDrag>
+
+            <ion-card-header style="background-color:white;color:black ;">
+              <ion-card-title>{{ candidates.name }}</ion-card-title>
+              <ion-card-subtitle> {{ candidates.company }}</ion-card-subtitle>
+            </ion-card-header>
+
+
+            
+            <ion-card-content style="text-align: left;">
+
+              <ion-row>
+                <ion-col >
+              <ion-icon *ngIf="candidates.star>=1" name="star-outline"></ion-icon>
+              <ion-icon *ngIf="candidates.star>=2" name="star-outline"></ion-icon>
+              <ion-icon *ngIf="candidates.star>=3" name="star-outline"></ion-icon>
+              <ion-icon *ngIf="candidates.star>=4" name="star-outline"></ion-icon>
+              <ion-icon *ngIf="candidates.star>=5" name="star-outline"></ion-icon>
+            
+              </ion-col >
+
+              <ion-col style="text-align: right;">
+                <ion-icon *ngIf="candidates.select==='yes'"name="add-circle"></ion-icon>
+              <ion-icon *ngIf="candidates.menu==='yes'" name="menu" sloat="start"></ion-icon>
+          
+              </ion-col>
+            </ion-row>
+            </ion-card-content>
+
+          
+            </ion-card>
+
+          <!-- =========================================== -->
+          
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+   
+  </ion-row>
+</ion-grid>
