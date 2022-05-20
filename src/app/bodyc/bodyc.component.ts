@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray,transferArrayItem } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-bodyc',
@@ -159,12 +159,18 @@ export class BodycComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-
-  dropMain(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.all_groups, event.previousIndex, event.currentIndex);
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
     }
-    dropSub(event: CdkDragDrop<string[]>,index) {
-      moveItemInArray(this.all_groups[index].candidates, event.previousIndex, event.currentIndex);
-      }
+  }
+
 
 }

@@ -20,14 +20,21 @@
 </ion-row>
     
 <ion-grid>
-  <ion-row (cdkDropListDropped)="dropMain($event)">
+  <ion-row cdkDropListGroup>
     <ion-col *ngFor="let grp of all_groups| filter:filter_l;"  cdkDrag>
       <ion-card style="background-color:rgb(183, 225, 238);">
         <ion-card-header >
           <ion-card-title style="color:black" >{{ grp.group_name }}-{{ grp.candidates.length }}</ion-card-title>
         </ion-card-header>
       
-        <ion-card-content (cdkDropListDropped)="dropSub($event,j)">
+        <ion-card-content 
+        cdkDropList
+        [cdkDropListData]="grp.candidates"
+       
+        (cdkDropListDropped)="drop($event)"
+        
+        
+        >
           <ion-item slot="end" style="width:100% ;">
             <ion-label position="floating"><ion-icon name="search"></ion-icon>
           Search  candidates  </ion-label>
